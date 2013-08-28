@@ -10,7 +10,7 @@ abstract class Segment {
     /**
      * Create a segment and provide all fields value.
      */
-    Segment(List<String> values) {
+    Segment.fromValues(List<String> values) {
       segmentTag = values[0];
       for (int i = 0; i < values.length; i++) {
             Field field = new Field(null, values[i]);
@@ -18,7 +18,7 @@ abstract class Segment {
       }
     }
 
-//  Segment(String[][] fields) {
+//  Segment.byCompositeValues(String[][] fields) {
 //    segmentTag = fields[0][0];
 //    for (int i = 0; i < fields.length; i++) {
 //      CompositeField cField = new CompositeField();
@@ -29,35 +29,33 @@ abstract class Segment {
 //      addCompositeField(cField);
 //    }
 //  }
-//
-//  Segment(Segment orig) {
-//    this.segmentTag = orig.segmentTag;
-//    for (CompositeField cField : orig.fields) {
-//            this.fields.add(cField.copy());
-//        }
-//  }
-//
-//  Segment setTransaction(Transaction transaction) {
-//    this.transaction = transaction;
-//    return this;
-//  }
-//
-//    String getSegmentTag() {
-//        return segmentTag;
-//    }
-//
-//  Transaction getTransaction() {
-//    return transaction;
-//  }
-//
+
+  Segment.fromSegment(Segment orig) {
+    this.segmentTag = orig.segmentTag;
+    for (Composite composite in orig.fields) {
+            this.fields.add(composite.copy());
+        }
+  }
+
+  Segment setTransaction(Transaction transaction) {
+    this.transaction = transaction;
+    return this;
+  }
+
+  String getSegmentTag() {
+    return segmentTag;
+  }
+
+  Transaction getTransaction() {
+    return transaction;
+  }
+
   Segment addField(Field field, [int position]) {
     if(position != null)
       return addComposite(field, position);
     return addComposite(field);
   }
 
-
-//
 //  List<CompositeField> getFields() {
 //    return fields;
 //  }
